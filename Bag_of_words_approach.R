@@ -49,15 +49,15 @@ train_ingredientsDTM <- as.data.frame(as.matrix(sparse))
 train_ingredientsDTM$cuisine <- as.factor(train_data$cuisine)
 
 # Create Model
-# inTrain <- createDataPartition(y = ingredientsDTM$cuisine, p = 0.7, list = FALSE)
-training <- train_ingredientsDTM
-#testing <- test_ingredientsDTM
+inTrain <- createDataPartition(y = train_ingredientsDTM$cuisine, p = 0.6, list = FALSE)
+training <- train_ingredientsDTM[inTrain,]
+testing <- train_ingredientsDTM[-inTrain,]
 
 # CART
 set.seed(9347)
 cartModelFit <- rpart(cuisine ~ ., data = training, method = "class")
-# Plot
-#prp(cartModelFit)
+#Plot
+prp(cartModelFit)
 
 cartPredict <- predict(cartModelFit, newdata = testing, type = "class")
 cartPredict
